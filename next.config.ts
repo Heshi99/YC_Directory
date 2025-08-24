@@ -1,7 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  //add config patterns here 
+
+  images: {
+    dangerouslyAllowSVG: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // allows all hostnames
+        pathname: "**", // required for wildcard paths
+      },
+    ],
+  },
 };
 
 export default nextConfig;
