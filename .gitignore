@@ -42,3 +42,6 @@ next-env.d.ts
 
 #js
 delete_bad.js
+
+# Sentry Config File
+.env.sentry-build-plugin
