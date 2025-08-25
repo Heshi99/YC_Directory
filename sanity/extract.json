@@ -234,7 +234,7 @@
         },
         "optional": true
       },
-      "eamil": {
+      "email": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

@@ -20,7 +20,7 @@ export const author = defineType({
             type:'string',
         }),
         defineField({
-            name:'eamil',
+            name:'email',
             type:'string',
         }),
         defineField({

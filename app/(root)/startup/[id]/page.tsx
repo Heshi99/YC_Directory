@@ -8,6 +8,7 @@ import React, { Suspense } from "react";
 import Image from "next/image";
 import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
+import View from "@/components/View";
 
 export const experimental_ppr = true;
 
@@ -72,7 +73,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         {/*TO DO :editor selected startups */}
 
         <Suspense fallback={<Skeleton className="view_skeleton"/>}>
-            
+            <View id={id}/>
         </Suspense>
       </section>
 
