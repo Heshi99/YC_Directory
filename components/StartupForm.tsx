@@ -1,19 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
+
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
+import { formSchema } from "@/lib/validations";
+import { z } from "zod";
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
-  const isPending = false;
+
+  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+    try {
+      const formValues = {
+        title: formData.get("title") as string,
+        description: formData.get("description") as string,
+        category: formData.get("category") as string,
+        link: formData.get("link") as string,
+        pitch,
+      };
+      console.log(formValues);
+      await formSchema.parseAsync(formValues);
+
+      //const result = await createIdea(prevState, formData, pitch)
+
+      //console.log(result)
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors = error.flatten().fieldErrors;
+        setErrors(fieldErrors as unknown as Record<string, string>);
+        return { ...prevState, error: "Validation Failed", status: "ERROR" };
+      }
+      return {
+        ...prevState,
+        error: "Unexpected error has occured",
+        status: "ERROR",
+      };
+    }
+  };
+
+  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
+    error: "",
+    status: "INITIAL",
+  });
 
   return (
-    <form action={() => {}} className="startup-form">
+    <form action={formAction} className="startup-form">
       <div>
         <label htmlFor="title" className="startup-form_label">
           Title
@@ -80,7 +116,7 @@ const StartupForm = () => {
         </label>
 
         <MDEditor
-        className="startup-form_input_pitch"
+          className="startup-form_input_pitch"
           value={pitch}
           onChange={(value) => setPitch(value as string)}
           id="pitch"
