@@ -8,14 +8,7 @@ export const STARTUPS_QUERY = defineQuery(
   _createdAt,
   description,
   category,
-  image{
-    asset->{
-      _id,
-      url
-    },
-    hotspot,
-    crop
-  },
+  image,
   views,
   author ->{
     _id,
@@ -36,14 +29,7 @@ export const STARTUP_BY_ID_QUERY = defineQuery(
   description,
   category,
     pitch,
-  image{
-    asset->{
-      _id,
-      url
-    },
-    hotspot,
-    crop
-  },
+  image,
   author ->{
     _id,
     name,
@@ -70,5 +56,36 @@ export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(
     email,
     image,
     bio
+  }`
+);
+
+export const AUTHOR_BY_ID_QUERY = defineQuery(
+  `*[_type == "author" && _id == $id][0]{
+    _id,
+    id,
+    name,
+    username,
+    email,
+    image,
+    bio
+  }`
+);
+
+export const STARTUPS_BY_AUTHOR_QUERY = defineQuery(
+  `*[_type == "startup" && author._ref == $id] | order(_createdAt desc){
+    _id,
+    title,
+    slug,
+    _createdAt,
+    description,
+    category,
+    image,
+    views,
+    author->{
+      _id,
+      name,
+      image,
+      bio
+    }
   }`
 );
